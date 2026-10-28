@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terrenos Premium | Inversión y Naturaleza en México</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       VARIABLES GLOBALES Y MODO OSCURO
+       ============================================================ */
+    :root {
+      /* Colores Modo Claro (Por defecto) */
+      --bg-color: #e6e4df;
+      --bg-section: #ffffff;
+      --text-dark: #2c2a27;
+      --text-light: #ffffff;
+      --text-muted: #666666;
+      --accent-brown: #6b4f3e; 
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-info-bg: #f9f8f6;
+      --footer-bg: #1a1a1a;
+      --footer-text: #888888;
+      --border-color: #e5e7eb;
+      --font-serif: 'Playfair Display', serif;
+      --font-sans: 'Inter', sans-serif;
+    }
+
+    /* Colores Modo Oscuro */
+    body.dark-mode {
+      --bg-color: #121212;
+      --bg-section: #1e1e1e;
+      --text-dark: #f3f4f6;
+      --text-light: #ffffff;
+      --text-muted: #a1a1aa;
+      --accent-brown: #8c6d58;
+      --card-bg: rgba(30, 30, 30, 0.85);
+      --card-info-bg: #2a2a2a;
+      --footer-bg: #0a0a0a;
+      --footer-text: #666666;
+      --border-color: #333333;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* ============================================================
+       BOTÓN MODO OSCURO
+       ============================================================ */
+    .btn-theme {
+      background: transparent;
+      border: 1px solid var(--text-light);
+      color: var(--text-light);
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-theme:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    body.dark-mode .btn-theme {
+      border-color: var(--text-dark);
+      color: var(--text-dark);
+    }
+
+    /* ============================================================
+       FONDO PRINCIPAL (HERO)
+       ============================================================ */
+    .hero-section {
+      position: relative;
+      min-height: 100vh;
+      background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      padding: 40px 5%;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.7) 100%);
+      z-index: 1;
+      transition: background 0.4s ease;
+    }
+
+    body.dark-mode .hero-section::before {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.9) 100%);
+    }
+
+    /* ============================================================
+       NAVBAR
+       ============================================================ */
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-light);
+    }
+
+    .logo {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      background-color: var(--text-light);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 40px;
+      font-size: 14px;
+    }
+
+    nav a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 400;
+      transition: opacity 0.3s ease;
+    }
+
+    nav a:hover { opacity: 0.7; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 14px;
+    }
+
+    .btn-contacto {
+      color: var(--text-light);
+      text-decoration: none;
+      border-bottom: 1px solid var(--text-light);
+      padding-bottom: 2px;
+    }
+
+    /* ============================================================
+       CONTENIDO HERO
+       ============================================================ */
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-grow: 1;
+      margin-top: 40px;
+    }
+
+    .texto-principal {
+      max-width: 500px;
+      color: var(--text-light);
+    }
+
+    .texto-principal h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(48px, 6vw, 80px);
+      line-height: 1.1;
+      font-weight: 400;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .texto-principal h1 sup {
+      font-size: 24px;
+      font-family: var(--font-sans);
+      font-weight: 300;
+    }
+
+    .subtitulo {
+      font-size: 16px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      margin-bottom: 40px;
+    }
+
+    .btn-primario {
+      background-color: var(--accent-brown);
+      color: var(--text-light);
+      border: none;
+      padding: 16px 40px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .btn-primario:hover {
+      background-color: #523b2e;
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       TARJETA FLOTANTE (GLASSMORPHISM)
+       ============================================================ */
+    .tarjeta-flotante {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 30px;
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      color: var(--text-dark);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .tags {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--text-dark);
+    }
+
+    .tag.active {
+      background-color: var(--text-dark);
+      color: var(--bg-section);
+      border-color: var(--text-dark);
+    }
+
+    .tarjeta-flotante h2 {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .tarjeta-flotante p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 25px;
+    }
+
+    .video-preview {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      border-radius: 15px;
+      background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80') center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .play-btn {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+
+    .play-btn::after {
+      content: '';
+      width: 0; height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 12px solid #2c2a27;
+      margin-left: 4px;
+    }
+
+    .video-preview:hover .play-btn { transform: scale(1.1); }
+
+    /* ============================================================
+       SECCIÓN INFERIOR (TARJETA MARRÓN Y EXTRAS)
+       ============================================================ */
+    .seccion-inferior {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 40px 0 0 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .tarjeta-materiales {
+      background-color: #a38774;
+      color: #ffffff;
+      padding: 40px;
+      border-radius: 0 40px 0 0;
+      max-width: 350px;
+      transition: background 0.4s ease;
+    }
+
+    body.dark-mode .tarjeta-materiales {
+      background-color: #7a5d4a;
+    }
+
+    .tarjeta-materiales h3 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .tarjeta-materiales p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .extras-derecha {
+      color: var(--text-light);
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 15px;
+      padding-bottom: 20px;
+    }
+
+    .avatares {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatares img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--text-light);
+      object-fit: cover;
+    }
+
+    .contador {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-style: italic;
+    }
+
+    .contador span {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-style: normal;
+      display: block;
+      opacity: 0.8;
+    }
+
+    .texto-combinado {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .link-learn {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--text-light);
+      padding-bottom: 2px;
+    }
+
+    /* ============================================================
+       NUEVAS SECCIONES INFORMATIVAS (INFO MÉXICO)
+       ============================================================ */
+    .info-section {
+      background-color: var(--bg-section);
+      padding: 80px 5%;
+      transition: background 0.4s ease;
+    }
+
+    .info-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .info-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .info-header h2 {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      color: var(--text-dark);
+      margin-bottom: 15px;
+    }
+
+    .info-header p {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .card-info {
+      background: var(--card-info-bg);
+      border-radius: 20px;
+      padding: 35px;
+      transition: transform 0.3s ease, background 0.4s ease;
+    }
+
+    .card-info:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-info h3 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: var(--accent-brown);
+    }
+
+    .card-info p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .card-info ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .card-info ul li {
+      font-size: 13px;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .card-info ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent-brown);
+    }
+
+    /* ============================================================
+       CORRECCIÓN: SECCIÓN DE DATOS CLAVE (PRECIOS) - MODO OSCURO
+       ============================================================ */
+    .datos-precios {
+      /* Fondo oscuro forzado (negro casi puro) */
+      background-color: #0d0d0d;
+      /* Texto claro forzado para mantener el contraste */
+      color: #f3f4f6;
+      padding: 60px 5%;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    body.dark-mode .datos-precios {
+      /* Aún más oscuro en modo oscuro para separar del fondo general */
+      background-color: #000000;
+    }
+
+    .datos-precios h2 {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      margin-bottom: 40px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .tabla-precios {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .precio-item {
+      /* Color tierra para el borde */
+      border-left: 2px solid #a38774;
+      padding-left: 20px;
+    }
+
+    .precio-item h4 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      /* Color tierra claro para los títulos */
+      color: #d4b5a0;
+    }
+
+    .precio-item p {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-style: italic;
+      color: #ffffff;
+    }
+
+    .precio-item span {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-style: normal;
+      display: block;
+      color: #a1a1aa;
+      margin-top: 5px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      text-align: center;
+      padding: 40px 5%;
+      font-size: 12px;
+      transition: background 0.4s ease;
+    }
+
+    /* ============================================================
+       RESPONSIVE DESIGN (MÓVILES Y TABLETS)
+       ============================================================ */
+    @media (max-width: 900px) {
+      .hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 40px;
+      }
+      .tarjeta-flotante { max-width: 100%; }
+      nav ul { display: none; }
+      .seccion-inferior {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+      }
+      .extras-derecha {
+        align-items: flex-start;
+        text-align: left;
+      }
+      .info-section { padding: 60px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SECCIÓN HERO -->
+  <section class="hero-section">
+    <header>
+      <div class="logo">
+        <div class="logo-icon"></div>
+        TIERRA VIVA
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#info">Mercado</a></li>
+          <li><a href="#precios">Precios</a></li>
+          <li><a href="#legal">Legal</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="nav-right">
+        <button class="btn-theme" id="theme-toggle" title="Cambiar tema">🌙</button>
+        <span>MX</span>
+        <a href="#" class="btn-contacto">COTIZAR</a>
+      </div>
+    </header>
+
+    <div class="hero-content">
+      <div class="texto-principal">
+        <h1>EL TERRENO<br>DE TUS SUEÑOS<sup>®</sup></h1>
+        <p class="subtitulo">/ Invierte en naturaleza /</p>
+        <button class="btn-primario">VER DISPONIBILIDAD</button>
+      </div>
+
+      <div class="tarjeta-flotante">
+        <div class="tags">
+          <span class="tag">Residencial</span>
+          <span class="tag">Inversión</span>
+          <span class="tag active">Tour Virtual</span>
+        </div>
+        <h2>Vistas únicas &<br>plusvalía garantizada</h2>
+        <p>Lotes desde 500m² con todos los servicios y acceso a áreas verdes en zonas de alto crecimiento.</p>
+        <div class="video-preview">
+          <div class="play-btn"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-inferior">
+      <div class="tarjeta-materiales">
+        <h3>¡Terrenos 100% legalizados!</h3>
+        <p>Escrituración inmediata, servicios subterráneos y reglamento interno para proteger tu inversión.</p>
+      </div>
+
+      <div class="extras-derecha">
+        <div class="avatares">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="Comprador 1">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="Compradora 2">
+        </div>
+        <div class="contador">
+          500+
+          <span>Familias felices</span>
+        </div>
+        <div class="texto-combinado">
+          CONECTA CON<br>LA TIERRA & TU FUTURO
+        </div>
+        <a href="#info" class="link-learn">CONOCE MÁS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: INFORMACIÓN DEL MERCADO MEXICANO -->
+  <section class="info-section" id="info">
+    <div class="info-container">
+      <div class="info-header">
+        <h2>El Mercado de Terrenos en México</h2>
+        <p>Datos clave para tomar decisiones de inversión informadas en el mercado actual.</p>
+      </div>
+      
+      <div class="grid-3">
+        <div class="card-info">
+          <h3>Precios por Región</h3>
+          <p>El costo del metro cuadrado varía drásticamente según la ubicación y el tipo de zona:</p>
+          <ul>
+            <li><strong>Zonas Premium (CDMX, Monterrey):</strong> $35,000 - $80,000+ MXN/m² </li>
+            <li><strong>Zonas Medias (Guadalajara, Querétaro):</strong> $5,500 - $15,000 MXN/m² </li>
+            <li><strong>Zonas Costeras (Tulum, Playa del Carmen):</strong> Varía según infraestructura y plusvalía turística </li>
+            <li><strong>Zonas Rurales/Suburbanas:</strong> Desde $80 - $1,500 MXN/m² </li>
+          </ul>
+        </div>
+
+        <div class="card-info">
+          <h3>Financiamiento</h3>
+          <p>Existen opciones tanto bancarias como gubernamentales para adquirir tu terreno:</p>
+          <ul>
+            <li><strong>Crédito Bancario:</strong> Hasta 100% del valor del terreno (Scotiabank) con ingresos desde $20,000 MXN </li>
+            <li><strong>Infonavit:</strong> Crédito para terreno con requisitos de zona urbanizada y servicios básicos </li>
+            <li><strong>Terreno + Construcción:</strong> Opción que combina la compra del predio con el financiamiento para edificar </li>
+          </ul>
+        </div>
+
+        <div class="card-info" id="legal">
+          <h3>Seguridad Legal</h3>
+          <p>Antes de comprar, verifica siempre estos puntos para evitar fraudes:</p>
+          <ul>
+            <li><strong>Escritura Pública:</strong> Debe estar inscrita en el Registro Público de la Propiedad </li>
+            <li><strong>Libertad de Gravamen:</strong> Solicita el certificado que confirme que no hay adeudos o hipotecas </li>
+            <li><strong>Terrenos Ejidales:</strong> Evita comprar si no se ha convertido a "Dominio Pleno" (propiedad privada) </li>
+            <li><strong>ISAI:</strong> Impuesto sobre Adquisición de Inmuebles (varía por estado, ej. 2-4% en Quintana Roo) </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: DATOS DE PRECIOS RÁPIDOS -->
+  <section class="datos-precios" id="precios">
+    <h2>Rangos de Precio por m² (Referencia 2026)</h2>
+    <div class="tabla-precios">
+      <div class="precio-item">
+        <h4>CDMX (Popular)</h4>
+        <p>$3,500 - $8,000</p>
+        <span>MXN por m² </span>
+      </div>
+      <div class="precio-item">
+        <h4>CDMX (Premium)</h4>
+        <p>$35,000 - $80,000+</p>
+        <span>MXN por m² </span>
+      </div>
+      <div class="precio-item">
+        <h4>Guadalajara (Media)</h4>
+        <p>$5,500 - $15,000</p>
+        <span>MXN por m² </span>
+      </div>
+      <div class="precio-item">
+        <h4>Monterrey (Popular)</h4>
+        <p>$2,500 - $5,500</p>
+        <span>MXN por m² </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER SIMPLE -->
+  <footer>
+    <p>© 2026 Tierra Viva. Información basada en datos de mercado públicos y fuentes citadas.</p>
+    <p style="margin-top: 10px;">Este sitio es una demostración de diseño. Consulta siempre a un asesor legal y financiero antes de invertir.</p>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPT PARA EL MODO OSCURO
+       ============================================================ -->
+  <script>
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+      body.classList.add('dark-mode');
+      themeToggleBtn.textContent = '☀️';
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      
+      if (body.classList.contains('dark-mode')) {
+        themeToggleBtn.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        themeToggleBtn.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+
+</body>
+</html>
