@@ -1,6 +1,4 @@
 1. Herramienta elegida
-Descripción:
-
 ChatGPT (GPT-4o) y DeepSeek. Elegí esta herramienta porque su capacidad para procesar contexto largo y generar código HTML/CSS/JS limpio en un solo bloque facilita el Vibe Coding. Además, su habilidad para explicar errores técnicos en lenguaje sencillo fue clave para la fase de depuración.
 
 2. Definición del Tema
