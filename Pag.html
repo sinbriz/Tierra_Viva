@@ -574,6 +574,42 @@
       }
       .info-section { padding: 60px 5%; }
     }
+
+        /* ESTILOS DEL MODAL */
+    .modal-overlay {
+      display: none; /* Oculto por defecto */
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    
+    .modal-content {
+      background: var(--bg-section);
+      color: var(--text-dark);
+      padding: 40px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .close-btn {
+      position: absolute; top: 15px; right: 20px;
+      font-size: 28px; cursor: pointer; color: var(--text-muted);
+    }
+    .form-group { margin-bottom: 20px; text-align: left; }
+    .form-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; }
+    .form-group input, .form-group select {
+      width: 100%; padding: 12px; border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-color); color: var(--text-dark);
+      font-family: var(--font-sans);
+    }
+    .resultado { margin-top: 20px; font-size: 18px; font-weight: bold; color: var(--accent-brown); text-align: center; }
   </style>
 </head>
 <body>
@@ -721,6 +757,33 @@
     <p style="margin-top: 10px;">Este sitio es una demostración de diseño. Consulta siempre a un asesor legal y financiero antes de invertir.</p>
   </footer>
 
+    <!-- VENTANA MODAL (COTIZADOR) -->
+  <div id="modal-cotizador" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-btn" id="close-modal">&times;</span>
+      <h2>Calcula tu Inversión</h2>
+      <p>Descubre el costo estimado de tu terreno ideal.</p>
+      
+      <div class="form-group">
+        <label for="metros">Metros cuadrados (m²) requeridos:</label>
+        <input type="number" id="metros" placeholder="Ej. 500" min="100">
+      </div>
+      
+      <div class="form-group">
+        <label for="zona">Selecciona la zona:</label>
+        <select id="zona">
+          <option value="1500">Zona Rural ($1,500 / m²)</option>
+          <option value="8000">Ciudad Popular ($8,000 / m²)</option>
+          <option value="35000">Ciudad Premium ($35,000 / m²)</option>
+        </select>
+      </div>
+      
+      <button class="btn-primario" id="btn-calcular" style="width: 100%; margin-top: 10px;">Calcular Total</button>
+      
+      <div id="resultado-cotizacion" class="resultado"></div>
+    </div>
+  </div>
+
   <!-- ============================================================
        SCRIPT PARA EL MODO OSCURO
        ============================================================ -->
@@ -744,6 +807,43 @@
         themeToggleBtn.textContent = '🌙';
         localStorage.setItem('theme', 'light');
       }
+    });
+
+        // --- LÓGICA DEL COTIZADOR ---
+    const modal = document.getElementById('modal-cotizador');
+    const btnCotizarNav = document.querySelector('.btn-contacto'); // Botón COTIZAR del menú
+    const btnDisponibilidad = document.querySelector('.texto-principal .btn-primario'); // Botón VER DISPONIBILIDAD
+    const closeModal = document.getElementById('close-modal');
+    
+    // Abrir modal
+    btnCotizarNav.addEventListener('click', (e) => { e.preventDefault(); modal.classList.add('active'); });
+    btnDisponibilidad.addEventListener('click', () => { modal.classList.add('active'); });
+    
+    // Cerrar modal
+    closeModal.addEventListener('click', () => { modal.classList.remove('active'); });
+    
+    // Calcular
+        document.getElementById('btn-calcular').addEventListener('click', () => {
+      // 1. Obtenemos los valores y los convertimos a números decimales
+      let metros = parseFloat(document.getElementById('metros').value);
+      let precioM2 = parseFloat(document.getElementById('zona').value);
+      let cajaResultado = document.getElementById('resultado-cotizacion');
+
+      // 2. VALIDACIÓN: Si metros no es un número o es menor o igual a 0...
+      if (isNaN(metros) || metros <= 0) {
+        cajaResultado.innerText = "⚠️ Por favor, ingresa un número válido de metros.";
+        cajaResultado.style.color = "#ff0000"; // Rojo para advertencia
+        return; // Detenemos la ejecución aquí
+      }
+
+      // 3. Si todo está bien, calculamos
+      let total = metros * precioM2;
+      
+      // 4. Formateamos el número para que tenga comas (Ej: 1,500,000)
+      let totalFormateado = total.toLocaleString('es-MX');
+
+      cajaResultado.innerText = `Total estimado: $${totalFormateado} MXN`;
+      cajaResultado.style.color = "var(--accent-brown)"; // Regresa al color normal
     });
   </script>
 
